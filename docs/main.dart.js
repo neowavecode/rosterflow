@@ -81873,7 +81873,7 @@ s=A.Mx(new A.a5x(this.b),null,t.z)
 A.jr(r).nd(s)},
 $S:0}
 A.a5x.prototype={
-$1(a){return new A.lv(this.a.gG8(),"html/privacy_policy.html",null)},
+$1(a){return new A.lv(this.a.gG8(),"privacy_policy.html",null)},
 $S:103}
 A.a5D.prototype={
 $0(){var s,r=this.a
@@ -81882,7 +81882,7 @@ s=A.Mx(new A.a5w(this.b),null,t.z)
 A.jr(r).nd(s)},
 $S:0}
 A.a5w.prototype={
-$1(a){return new A.lv(this.a.gGu(),"html/terms_and_conditions.html",null)},
+$1(a){return new A.lv(this.a.gGu(),"terms_and_conditions.html",null)},
 $S:103}
 A.a5E.prototype={
 $0(){var s,r=this.a
@@ -81891,7 +81891,7 @@ s=A.Mx(new A.a5v(this.b),null,t.z)
 A.jr(r).nd(s)},
 $S:0}
 A.a5v.prototype={
-$1(a){return new A.lv(this.a.gEf(),"html/faq.html",null)},
+$1(a){return new A.lv(this.a.gEf(),"faq.html",null)},
 $S:103}
 A.a5F.prototype={
 $0(){var s,r=this.a
