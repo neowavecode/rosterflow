@@ -1,0 +1,10 @@
+{
+    "@@locale": "es",
+    "webTitle": "RosterFlow",
+    "inicio": "Inicio",
+    "politicasPrivacidad": "Políticas de privacidad",
+    "terminosCondiciones": "Términos y condiciones",
+    "faq": "FAQ",
+    "soporte": "Soporte",
+    "derechosReservados": "© {year} RosterFlow. Todos los derechos reservados."
+}
