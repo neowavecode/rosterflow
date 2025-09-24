@@ -112,7 +112,7 @@ class HomePage extends StatelessWidget {
               title: Text(l10n.support),
               onTap: () {
                 Navigator.pop(context);
-                _navigateTo('support_html.html');
+                _navigateTo('support.html');
               },
             ),
           ],
@@ -141,22 +141,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           // Contenido del home centrado
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  l10n.underConstruction,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: Colors.white70,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
+          
           // Footer
           Align(
             alignment: Alignment.bottomCenter,
