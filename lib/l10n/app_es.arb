@@ -1,10 +1,12 @@
 {
-    "@@locale": "es",
-    "webTitle": "RosterFlow",
-    "inicio": "Inicio",
-    "politicasPrivacidad": "Políticas de privacidad",
-    "terminosCondiciones": "Términos y condiciones",
-    "faq": "FAQ",
-    "soporte": "Soporte",
-    "derechosReservados": "© {year} RosterFlow. Todos los derechos reservados."
+
+"appTitle": "RosterFlow",
+"appName": "RosterFlow",
+"home": "Home",
+"privacyPolicy": "Privacy Policy",
+"termsAndConditions": "Terms and Conditions",
+"faq": "FAQ",
+"support": "Support",
+"underConstruction": "WEBSITE UNDER CONSTRUCTION",
+"footerText": "© {appName} 2025 all rights reserved"
 }

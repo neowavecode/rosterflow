@@ -98,29 +98,35 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
-  /// No description provided for @webTitle.
+  /// No description provided for @appTitle.
   ///
   /// In es, this message translates to:
   /// **'RosterFlow'**
-  String get webTitle;
+  String get appTitle;
 
-  /// No description provided for @inicio.
+  /// No description provided for @appName.
   ///
   /// In es, this message translates to:
-  /// **'Inicio'**
-  String get inicio;
+  /// **'RosterFlow'**
+  String get appName;
 
-  /// No description provided for @politicasPrivacidad.
+  /// No description provided for @home.
   ///
   /// In es, this message translates to:
-  /// **'Políticas de privacidad'**
-  String get politicasPrivacidad;
+  /// **'Home'**
+  String get home;
 
-  /// No description provided for @terminosCondiciones.
+  /// No description provided for @privacyPolicy.
   ///
   /// In es, this message translates to:
-  /// **'Términos y condiciones'**
-  String get terminosCondiciones;
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @termsAndConditions.
+  ///
+  /// In es, this message translates to:
+  /// **'Terms and Conditions'**
+  String get termsAndConditions;
 
   /// No description provided for @faq.
   ///
@@ -128,17 +134,23 @@ abstract class AppLocalizations {
   /// **'FAQ'**
   String get faq;
 
-  /// No description provided for @soporte.
+  /// No description provided for @support.
   ///
   /// In es, this message translates to:
-  /// **'Soporte'**
-  String get soporte;
+  /// **'Support'**
+  String get support;
 
-  /// No description provided for @derechosReservados.
+  /// No description provided for @underConstruction.
   ///
   /// In es, this message translates to:
-  /// **'© {year} RosterFlow. Todos los derechos reservados.'**
-  String derechosReservados(Object year);
+  /// **'WEBSITE UNDER CONSTRUCTION'**
+  String get underConstruction;
+
+  /// No description provided for @footerText.
+  ///
+  /// In es, this message translates to:
+  /// **'© {appName} 2025 all rights reserved'**
+  String footerText(Object appName);
 }
 
 class _AppLocalizationsDelegate

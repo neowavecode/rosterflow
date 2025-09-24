@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rosterflowweb/l10n/app_localizations.dart';
-import 'package:rosterflowweb/document_screen.dart';
-import 'package:rosterflowweb/support_screen.dart';
+import 'dart:html' as html;
 
 void main() {
-  runApp(const RosterFlowWebApp());
+  runApp(const RosterFlowApp());
 }
 
-class RosterFlowWebApp extends StatelessWidget {
-  const RosterFlowWebApp({super.key});
+class RosterFlowApp extends StatelessWidget {
+  const RosterFlowApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.webTitle,
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
+      // Título de la aplicación en el navegador
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      // Configuración de la internacionalización
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -26,55 +24,52 @@ class RosterFlowWebApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('es', ''),
         Locale('en', ''),
+        Locale('es', ''),
       ],
-      home: const HomeScreen(),
+      // Tema de la aplicación
+      theme: ThemeData(
+        fontFamily: 'Inter',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          iconTheme: IconThemeData(color: Colors.white),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
+      ),
+      home: const HomePage(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  void _navigateTo(String route) {
+    // Redirige al navegador a la URL estática
+    html.window.location.href = route;
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu, color: Colors.white),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
+        title: Text(
+          l10n.appTitle,
+          style: const TextStyle(color: Colors.white),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.language, color: Colors.white),
-            onPressed: () {
-              // Lógica para cambiar de idioma
-            },
-          ),
-        ],
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              decoration: const BoxDecoration(
                 color: Colors.black,
               ),
               child: Text(
-                'RosterFlow',
-                style: TextStyle(
+                l10n.appName,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                 ),
@@ -82,37 +77,26 @@ class HomeScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.home),
-              title: Text(l10n.inicio),
+              title: Text(l10n.home),
               onTap: () {
                 Navigator.pop(context);
+                _navigateTo('index.html');
               },
             ),
             ListTile(
-              leading: const Icon(Icons.policy),
-              title: Text(l10n.politicasPrivacidad),
+              leading: const Icon(Icons.privacy_tip),
+              title: Text(l10n.privacyPolicy),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DocumentScreen(
-                    title: l10n.politicasPrivacidad,
-                    htmlPath: 'html/privacy_policy.html',
-                  )),
-                );
+                _navigateTo('privacy_policy.html');
               },
             ),
             ListTile(
-              leading: const Icon(Icons.description),
-              title: Text(l10n.terminosCondiciones),
+              leading: const Icon(Icons.article),
+              title: Text(l10n.termsAndConditions),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DocumentScreen(
-                    title: l10n.terminosCondiciones,
-                    htmlPath: 'html/terms_and_conditions.html',
-                  )),
-                );
+                _navigateTo('terms_and_conditions.html');
               },
             ),
             ListTile(
@@ -120,64 +104,74 @@ class HomeScreen extends StatelessWidget {
               title: Text(l10n.faq),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DocumentScreen(
-                    title: l10n.faq,
-                    htmlPath: 'html/faq.html',
-                  )),
-                );
+                _navigateTo('faq.html');
               },
             ),
-            
-           ListTile(
-  leading: const Icon(Icons.support_agent),
-  title: Text(l10n.soporte),
-  onTap: () {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SupportScreen()),
-    );
-  },
-),
+            ListTile(
+              leading: const Icon(Icons.support),
+              title: Text(l10n.support),
+              onTap: () {
+                Navigator.pop(context);
+                _navigateTo('support_html.html');
+              },
+            ),
           ],
         ),
       ),
       body: Stack(
         children: [
-          // Fondo de la web: imagen
+          // Imagen de fondo en pantalla completa
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/webconstruccion.png',
+            child: Image.network(
+              'web1.png',
               fit: BoxFit.cover,
-            ),
-          ),
-          // Contenido principal de la web
-          Center(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // El esqueleto de la web
-                      
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  color: Colors.black,
-                  child: Center(
-                    child: Text(
-                      l10n.derechosReservados(DateTime.now().year.toString()),
-                      style: const TextStyle(color: Colors.white),
+              errorBuilder: (context, error, stackTrace) {
+                // Mensaje de error si la imagen no se carga
+                return const Center(
+                  child: Text(
+                    'Error al cargar la imagen de fondo.',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                );
+              },
+            ),
+          ),
+          // Contenido del home centrado
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  l10n.underConstruction,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: Colors.white70,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ],
+            ),
+          ),
+          // Footer
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              color: Colors.black.withOpacity(0.8),
+              width: double.infinity,
+              child: Text(
+                l10n.footerText('RosterFlow'),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
         ],

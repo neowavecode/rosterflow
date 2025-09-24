@@ -9,25 +9,31 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get webTitle => 'RosterFlow';
+  String get appTitle => 'RosterFlow';
 
   @override
-  String get inicio => 'Inicio';
+  String get appName => 'RosterFlow';
 
   @override
-  String get politicasPrivacidad => 'Políticas de privacidad';
+  String get home => 'Home';
 
   @override
-  String get terminosCondiciones => 'Términos y condiciones';
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get termsAndConditions => 'Terms and Conditions';
 
   @override
   String get faq => 'FAQ';
 
   @override
-  String get soporte => 'Soporte';
+  String get support => 'Support';
 
   @override
-  String derechosReservados(Object year) {
-    return '© $year RosterFlow. Todos los derechos reservados.';
+  String get underConstruction => 'WEBSITE UNDER CONSTRUCTION';
+
+  @override
+  String footerText(Object appName) {
+    return '© $appName 2025 all rights reserved';
   }
 }
