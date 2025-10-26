@@ -297,7 +297,7 @@ class HomePage extends StatelessWidget {
               videoPath: 'assets/videos/1.mp4', // Aquí usamos el vídeo 12
               title: l10n.feature12Title,
               description: l10n.feature12Description,
-              videoOnLeft: false,
+              videoOnLeft: true,
             ),
             
             // --- TEMA: MODO EMPLEADO ---
