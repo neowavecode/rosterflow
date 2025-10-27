@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activar Suscripción RosterFlow</title>
+    <title>RosterFlow</title>
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f4f6f8; text-align: center; padding: 20px; box-sizing: border-box; }
         .container { padding: 30px; background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
@@ -19,39 +19,76 @@
 </head>
 <body>
     <div class="container">
-        <h2>Activar tu Suscripción</h2>
-        <p>Estás a un paso de activar tu plan RosterFlow. Pulsa el botón para continuar de forma segura en nuestra pasarela de pago.</p>
-        <button id="activateButton">
-            Continuar al Pago Seguro
-        </button>
-        <p id="statusMessage" style="margin-top: 20px; min-height: 20px;"></p> </div>
+        <h2 id="title"></h2>
+        <p id="description"></p>
+        <button id="activateButton"></button>
+        <p id="statusMessage" style="margin-top: 20px; min-height: 20px;"></p>
+    </div>
 
     <script>
+        // --- INICIO INTERNACIONALIZACIÓN ---
+        const translations = {
+            es: {
+                pageTitle: "Activando Suscripción RosterFlow...",
+                title: "Activar tu Suscripción",
+                description: "Estás a un paso de activar tu plan RosterFlow. Pulsa el botón para continuar de forma segura en nuestra pasarela de pago.",
+                buttonText: "Continuar al Pago Seguro",
+                validating: "Validando...",
+                redirecting: "Redirigiendo a Stripe...",
+                errorTokenNotFound: "Token no encontrado. Por favor, vuelve a la app y genera un nuevo enlace.",
+                errorServer: "Error del servidor. Inténtalo de nuevo.",
+                errorNoUrl: "No se recibió la URL de pago.",
+                errorGeneric: "Error:"
+            },
+            en: {
+                pageTitle: "Activating RosterFlow Subscription...",
+                title: "Activate Your Subscription",
+                description: "You're one step away from activating your RosterFlow plan. Click the button to proceed securely to our payment gateway.",
+                buttonText: "Continue to Secure Payment",
+                validating: "Validating...",
+                redirecting: "Redirecting to Stripe...",
+                errorTokenNotFound: "Token not found. Please go back to the app and generate a new link.",
+                errorServer: "Server error. Please try again.",
+                errorNoUrl: "Payment URL not received.",
+                errorGeneric: "Error:"
+            }
+        };
+
+        // Detectar idioma del navegador (simplificado, 'es' o 'en' por defecto)
+        const userLang = navigator.language.split('-')[0];
+        const lang = translations[userLang] ? userLang : 'en'; // Usa 'en' si el idioma no está
+        const t = translations[lang]; // Objeto con las traducciones correctas
+
+        // Aplicar traducciones a la página
+        document.title = t.pageTitle;
+        document.getElementById('title').textContent = t.title;
+        document.getElementById('description').textContent = t.description;
+        document.getElementById('activateButton').textContent = t.buttonText;
+        // --- FIN INTERNACIONALIZACIÓN ---
+
+
         const activateButton = document.getElementById('activateButton');
         const statusMessage = document.getElementById('statusMessage');
         let isLoading = false;
 
-        // Función para llamar a Supabase y redirigir
         const activateSubscription = async () => {
-            if (isLoading) return; // Evitar doble click
+            if (isLoading) return;
 
             isLoading = true;
             activateButton.disabled = true;
-            statusMessage.innerHTML = 'Validando... <div class="loader"></div>'; // Mostrar loader
-            statusMessage.style.color = '#666'; // Reset color
+            // Usamos textos traducidos
+            statusMessage.innerHTML = `${t.validating} <div class="loader"></div>`; 
+            statusMessage.style.color = '#666'; 
 
             try {
-                // 1. Obtener el token de la URL actual
                 const urlParams = new URLSearchParams(window.location.search);
                 const token = urlParams.get('token');
 
                 if (!token) {
-                    throw new Error('Token no encontrado. Por favor, vuelve a la app y genera un nuevo enlace.');
+                    throw new Error(t.errorTokenNotFound); // Texto traducido
                 }
 
-                // 2. Llamar a la Edge Function de Supabase
-                //    CAMBIA ESTA URL por la URL real de tu función
-                const supabaseFunctionUrl = 'https://TU_PROYECTO_ID.supabase.co/functions/v1/validate-activation-token'; 
+                const supabaseFunctionUrl = 'https://TU_PROYECTO_ID.supabase.co/functions/v1/validate-activation-token'; // <-- RECUERDA CAMBIAR ESTO
                 
                 const response = await fetch(supabaseFunctionUrl, {
                     method: 'POST',
@@ -61,35 +98,29 @@
 
                 const data = await response.json();
 
-                // 3. Comprobar si la función devolvió un error
                 if (!response.ok || data.error) {
-                    throw new Error(data.error || `Error del servidor: ${response.status}. Inténtalo de nuevo.`);
+                    // Texto traducido
+                    throw new Error(data.error || `${t.errorServer} ${response.status}.`); 
                 }
 
-                // 4. Redirigir a Stripe si todo fue bien
                 if (data.checkoutUrl) {
-                    statusMessage.textContent = 'Redirigiendo a Stripe...';
+                    statusMessage.textContent = t.redirecting; // Texto traducido
                     window.location.href = data.checkoutUrl;
                 } else {
-                    throw new Error('No se recibió la URL de pago.');
+                    throw new Error(t.errorNoUrl); // Texto traducido
                 }
 
             } catch (error) {
                 console.error('Error en la activación:', error);
-                statusMessage.textContent = `Error: ${error.message}`;
+                 // Texto traducido
+                statusMessage.textContent = `${t.errorGeneric} ${error.message}`;
                 statusMessage.style.color = 'red';
-                activateButton.disabled = false; // Habilitar botón para reintentar
+                activateButton.disabled = false; 
                 isLoading = false;
             }
         };
 
-        // Asignar la función al click del botón
         activateButton.addEventListener('click', activateSubscription);
-
-        // Opcional: Intentar activar automáticamente al cargar la página
-        // activateSubscription(); 
-        // Descomenta la línea anterior si prefieres que intente redirigir solo, 
-        // pero tener el botón da más control al usuario si algo falla.
 
     </script>
 </body>
