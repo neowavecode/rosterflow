@@ -113,25 +113,40 @@ class RosterFlowApp extends StatelessWidget {
       ),
     ),
   ),
-  onGenerateRoute: (settings) {
-        // Comprobamos si la ruta es '/activate-subscription'
-        if (settings.name == '/activate-subscription') {
-          // Extraemos los parámetros de la URL (el token)
-          final Uri uri = Uri.parse(settings.name!);
-          final String? token = uri.queryParameters['token'];
+  // En lib/main.dart (de rosterflowweb)
 
-          // Devolvemos la ruta a ActivationScreen, pasándole el token
-          return MaterialPageRoute(
-            builder: (context) => ActivationScreen(token: token),
-          );
-        }
+onGenerateRoute: (settings) {
+  Uri uri = Uri.parse(settings.name ?? '/'); // Analiza la URI solicitada
 
-        // Para cualquier otra ruta no definida, mostramos la HomePage
-        // (Esto actúa como tu ruta por defecto o home)
-        return MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        );
-      },
+  // --- INICIO DE LA LÓGICA MEJORADA ---
+  // Revisa si estamos en la ruta raíz Y si existen los parámetros 'p' y 'q' del script 404.html
+  if (uri.path == '/' && uri.queryParameters.containsKey('p') && uri.queryParameters.containsKey('q')) {
+    // Reconstruye la ruta original a partir de los parámetros
+    final String originalPath = uri.queryParameters['p'] ?? '/';
+    final String originalQuery = uri.queryParameters['q'] ?? '';
+    // Necesitamos decodificar los '~and~' que puso el script
+    final String decodedQuery = originalQuery.replaceAll('~and~', '&');
+
+    // Volvemos a analizar la URI original reconstruida
+    uri = Uri.parse(originalPath + (decodedQuery.isNotEmpty ? '?$decodedQuery' : ''));
+  }
+  // --- FIN DE LA LÓGICA MEJORADA ---
+
+  // Ahora, la lógica de rutas normal, pero usando la 'uri' potentially modificada
+  if (uri.path == '/activate-subscription') {
+    final String? token = uri.queryParameters['token'];
+    return MaterialPageRoute(
+      builder: (context) => ActivationScreen(token: token),
+      settings: settings, // Pasa los settings para mantener la info de ruta
+    );
+  }
+
+  // Ruta por defecto (HomePage)
+  return MaterialPageRoute(
+    builder: (context) => const HomePage(),
+    settings: settings, // Pasa los settings
+  );
+},
       // Ya no necesitamos la propiedad 'home' si usamos onGenerateRoute
       // home: const HomePage(),
       // --- FIN DE LA LÓGICA DE RUTAS ---
