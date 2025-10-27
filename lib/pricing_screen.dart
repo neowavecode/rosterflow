@@ -345,7 +345,7 @@ class _PricingCard extends StatelessWidget {
                 const SizedBox(height: 24),
                 const Divider(),
                 const SizedBox(height: 16),
-                ...features.map((feature) => _FeatureItem(text: feature)).toList(),
+                ...features.map((feature) => _FeatureItem(text: feature)),
               ],
             ),
           ),

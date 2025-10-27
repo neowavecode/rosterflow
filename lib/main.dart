@@ -8,16 +8,29 @@ import 'package:rosterflowweb/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rosterflowweb/localization_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:rosterflowweb/screens/web/activation_screen.dart';
 
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Necesario para Supabase
+
+  await Supabase.initialize(
+    url: 'https://yssonpnesxtkmzganklq.supabase.co', // La URL de tu proyecto Supabase
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlzc29ucG5lc3h0a216Z2Fua2xxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1ODQ3NDAsImV4cCI6MjA3MzE2MDc0MH0.yBjnQNLX13BGg5I5UY8Gd2Kgl6OgKvovuCAaOmTtQQc', // La clave anónima de tu proyecto
+  );
+
   runApp(
-    // Envolvemos la app con el ChangeNotifierProvider
     ChangeNotifierProvider(
       create: (context) => LocalizationProvider(),
       child: const RosterFlowApp(),
     ),
   );
 }
+
+// --- DEFINE LA VARIABLE GLOBALMENTE ---
+// (O usa un método mejor como get_it si prefieres)
+final supabase = Supabase.instance.client;
 
 class RosterFlowApp extends StatelessWidget {
   const RosterFlowApp({super.key});
@@ -100,7 +113,28 @@ class RosterFlowApp extends StatelessWidget {
       ),
     ),
   ),
-      home: const HomePage(),
+  onGenerateRoute: (settings) {
+        // Comprobamos si la ruta es '/activate-subscription'
+        if (settings.name == '/activate-subscription') {
+          // Extraemos los parámetros de la URL (el token)
+          final Uri uri = Uri.parse(settings.name!);
+          final String? token = uri.queryParameters['token'];
+
+          // Devolvemos la ruta a ActivationScreen, pasándole el token
+          return MaterialPageRoute(
+            builder: (context) => ActivationScreen(token: token),
+          );
+        }
+
+        // Para cualquier otra ruta no definida, mostramos la HomePage
+        // (Esto actúa como tu ruta por defecto o home)
+        return MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        );
+      },
+      // Ya no necesitamos la propiedad 'home' si usamos onGenerateRoute
+      // home: const HomePage(),
+      // --- FIN DE LA LÓGICA DE RUTAS ---
     );
   }
 }
