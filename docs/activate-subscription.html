@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activar Suscripción RosterFlow</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f4f6f8; text-align: center; padding: 20px; box-sizing: border-box; }
+        .container { padding: 30px; background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
+        h2 { color: #333; margin-bottom: 20px; }
+        p { color: #666; margin-bottom: 30px; line-height: 1.6; }
+        button { background-color: #007bff; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; width: 100%; box-sizing: border-box; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-left: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .error { color: red; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Activar tu Suscripción</h2>
+        <p>Estás a un paso de activar tu plan RosterFlow. Pulsa el botón para continuar de forma segura en nuestra pasarela de pago.</p>
+        <button id="activateButton">
+            Continuar al Pago Seguro
+        </button>
+        <p id="statusMessage" style="margin-top: 20px; min-height: 20px;"></p> </div>
+
+    <script>
+        const activateButton = document.getElementById('activateButton');
+        const statusMessage = document.getElementById('statusMessage');
+        let isLoading = false;
+
+        // Función para llamar a Supabase y redirigir
+        const activateSubscription = async () => {
+            if (isLoading) return; // Evitar doble click
+
+            isLoading = true;
+            activateButton.disabled = true;
+            statusMessage.innerHTML = 'Validando... <div class="loader"></div>'; // Mostrar loader
+            statusMessage.style.color = '#666'; // Reset color
+
+            try {
+                // 1. Obtener el token de la URL actual
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+
+                if (!token) {
+                    throw new Error('Token no encontrado. Por favor, vuelve a la app y genera un nuevo enlace.');
+                }
+
+                // 2. Llamar a la Edge Function de Supabase
+                //    CAMBIA ESTA URL por la URL real de tu función
+                const supabaseFunctionUrl = 'https://TU_PROYECTO_ID.supabase.co/functions/v1/validate-activation-token'; 
+                
+                const response = await fetch(supabaseFunctionUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+
+                const data = await response.json();
+
+                // 3. Comprobar si la función devolvió un error
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || `Error del servidor: ${response.status}. Inténtalo de nuevo.`);
+                }
+
+                // 4. Redirigir a Stripe si todo fue bien
+                if (data.checkoutUrl) {
+                    statusMessage.textContent = 'Redirigiendo a Stripe...';
+                    window.location.href = data.checkoutUrl;
+                } else {
+                    throw new Error('No se recibió la URL de pago.');
+                }
+
+            } catch (error) {
+                console.error('Error en la activación:', error);
+                statusMessage.textContent = `Error: ${error.message}`;
+                statusMessage.style.color = 'red';
+                activateButton.disabled = false; // Habilitar botón para reintentar
+                isLoading = false;
+            }
+        };
+
+        // Asignar la función al click del botón
+        activateButton.addEventListener('click', activateSubscription);
+
+        // Opcional: Intentar activar automáticamente al cargar la página
+        // activateSubscription(); 
+        // Descomenta la línea anterior si prefieres que intente redirigir solo, 
+        // pero tener el botón da más control al usuario si algo falla.
+
+    </script>
+</body>
+</html>
