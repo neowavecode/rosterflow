@@ -8,18 +8,10 @@ import 'package:rosterflowweb/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rosterflowweb/localization_provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:rosterflowweb/screens/web/activation_screen.dart';
 
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Necesario para Supabase
-
-  await Supabase.initialize(
-    url: 'https://yssonpnesxtkmzganklq.supabase.co', // La URL de tu proyecto Supabase
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlzc29ucG5lc3h0a216Z2Fua2xxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1ODQ3NDAsImV4cCI6MjA3MzE2MDc0MH0.yBjnQNLX13BGg5I5UY8Gd2Kgl6OgKvovuCAaOmTtQQc', // La clave anónima de tu proyecto
-  );
-
+void main() {
+  // Ya no necesitamos 'async' ni 'ensureInitialized' si solo ejecutamos runApp
   runApp(
     ChangeNotifierProvider(
       create: (context) => LocalizationProvider(),
@@ -28,9 +20,6 @@ Future<void> main() async {
   );
 }
 
-// --- DEFINE LA VARIABLE GLOBALMENTE ---
-// (O usa un método mejor como get_it si prefieres)
-final supabase = Supabase.instance.client;
 
 class RosterFlowApp extends StatelessWidget {
   const RosterFlowApp({super.key});
@@ -113,43 +102,7 @@ class RosterFlowApp extends StatelessWidget {
       ),
     ),
   ),
-  // En lib/main.dart (de rosterflowweb)
-
-onGenerateRoute: (settings) {
-  Uri uri = Uri.parse(settings.name ?? '/'); // Analiza la URI solicitada
-
-  // --- INICIO DE LA LÓGICA MEJORADA ---
-  // Revisa si estamos en la ruta raíz Y si existen los parámetros 'p' y 'q' del script 404.html
-  if (uri.path == '/' && uri.queryParameters.containsKey('p') && uri.queryParameters.containsKey('q')) {
-    // Reconstruye la ruta original a partir de los parámetros
-    final String originalPath = uri.queryParameters['p'] ?? '/';
-    final String originalQuery = uri.queryParameters['q'] ?? '';
-    // Necesitamos decodificar los '~and~' que puso el script
-    final String decodedQuery = originalQuery.replaceAll('~and~', '&');
-
-    // Volvemos a analizar la URI original reconstruida
-    uri = Uri.parse(originalPath + (decodedQuery.isNotEmpty ? '?$decodedQuery' : ''));
-  }
-  // --- FIN DE LA LÓGICA MEJORADA ---
-
-  // Ahora, la lógica de rutas normal, pero usando la 'uri' potentially modificada
-  if (uri.path == '/activate-subscription') {
-    final String? token = uri.queryParameters['token'];
-    return MaterialPageRoute(
-      builder: (context) => ActivationScreen(token: token),
-      settings: settings, // Pasa los settings para mantener la info de ruta
-    );
-  }
-
-  // Ruta por defecto (HomePage)
-  return MaterialPageRoute(
-    builder: (context) => const HomePage(),
-    settings: settings, // Pasa los settings
-  );
-},
-      // Ya no necesitamos la propiedad 'home' si usamos onGenerateRoute
-      // home: const HomePage(),
-      // --- FIN DE LA LÓGICA DE RUTAS ---
-    );
-  }
+  home: const HomePage(), // <-- ASEGÚRATE DE QUE ESTA LÍNEA ESTÉ DESCOMENTADA
+  ); // Cierre del MaterialApp
+}
 }

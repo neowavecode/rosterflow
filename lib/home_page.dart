@@ -8,7 +8,6 @@ import 'dart:html' as html;
 import 'package:rosterflowweb/widgets/feature_section.dart';
 import 'package:rosterflowweb/widgets/image_slider.dart'; // <-- Nuestro nuevo slider
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rosterflowweb/pricing_screen.dart'; // <-- El nuevo archivo
 import 'package:provider/provider.dart';
 import 'package:rosterflowweb/localization_provider.dart';
 // ... tus otros imports
@@ -90,24 +89,7 @@ class HomePage extends StatelessWidget {
             ),
 
             // --- INICIO DEL NUEVO BOTÓN ---
-            ListTile(
-              leading: const Icon(Icons.price_change_outlined, color: Colors.blue),
-              title: Text(
-                l10n.pricing,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-              onTap: () {
-                // Navegación interna de Flutter (no recarga la web)
-                Navigator.pop(context); // Cierra el drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PricingScreen()),
-                );
-              },
-            ),
+           
             // --- FIN DEL NUEVO BOTÓN ---
             const Divider(),
             ListTile(
@@ -202,7 +184,7 @@ class HomePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: YoutubePresenter(
                   // CAMBIA ESTA ID por la de tu vídeo
-                  videoId: 'NcI4c4nb1V4', 
+                  videoId: 'G_PcfT8M_hM', 
                 ),
               ),
               // --- FIN DE LA SECCIÓN DE VÍDEO ---
@@ -294,7 +276,7 @@ class HomePage extends StatelessWidget {
               videoOnLeft: false,
             ),
                         FeatureSection(
-              videoPath: 'assets/videos/1.mp4', // Aquí usamos el vídeo 12
+              videoPath: 'assets/videos/13.mp4', // Aquí usamos el vídeo 12
               title: l10n.feature12Title,
               description: l10n.feature12Description,
               videoOnLeft: true,
