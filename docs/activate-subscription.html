@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RosterFlow</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f4f6f8; text-align: center; padding: 20px; box-sizing: border-box; }
+        .container { padding: 30px; background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
+        h2 { color: #333; margin-bottom: 20px; }
+        p { color: #666; margin-bottom: 30px; line-height: 1.6; }
+        button { background-color: #007bff; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; width: 100%; box-sizing: border-box; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-left: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .error { color: red; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="title"></h2>
+        <p id="description"></p>
+        <button id="activateButton"></button>
+        <p id="statusMessage" style="margin-top: 20px; min-height: 20px;"></p>
+    </div>
+
+    <script>
+        // --- INICIO INTERNACIONALIZACIÓN ---
+        const translations = {
+            es: {
+                pageTitle: "Activando Suscripción RosterFlow...",
+                title: "Activar tu Suscripción",
+                description: "Estás a un paso de activar tu plan RosterFlow. Pulsa el botón para continuar de forma segura en nuestra pasarela de pago.",
+                buttonText: "Continuar al Pago Seguro",
+                validating: "Validando...",
+                redirecting: "Redirigiendo a Stripe...",
+                errorTokenNotFound: "Token no encontrado. Por favor, vuelve a la app y genera un nuevo enlace.",
+                errorServer: "Error del servidor. Inténtalo de nuevo.",
+                errorNoUrl: "No se recibió la URL de pago.",
+                errorGeneric: "Error:"
+            },
+            en: {
+                pageTitle: "Activating RosterFlow Subscription...",
+                title: "Activate Your Subscription",
+                description: "You're one step away from activating your RosterFlow plan. Click the button to proceed securely to our payment gateway.",
+                buttonText: "Continue to Secure Payment",
+                validating: "Validating...",
+                redirecting: "Redirecting to Stripe...",
+                errorTokenNotFound: "Token not found. Please go back to the app and generate a new link.",
+                errorServer: "Server error. Please try again.",
+                errorNoUrl: "Payment URL not received.",
+                errorGeneric: "Error:"
+            }
+        };
+
+        // Detectar idioma del navegador (simplificado, 'es' o 'en' por defecto)
+        const userLang = navigator.language.split('-')[0];
+        const lang = translations[userLang] ? userLang : 'en'; // Usa 'en' si el idioma no está
+        const t = translations[lang]; // Objeto con las traducciones correctas
+
+        // Aplicar traducciones a la página
+        document.title = t.pageTitle;
+        document.getElementById('title').textContent = t.title;
+        document.getElementById('description').textContent = t.description;
+        document.getElementById('activateButton').textContent = t.buttonText;
+        // --- FIN INTERNACIONALIZACIÓN ---
+
+
+        const activateButton = document.getElementById('activateButton');
+        const statusMessage = document.getElementById('statusMessage');
+        let isLoading = false;
+
+        const activateSubscription = async () => {
+            if (isLoading) return;
+
+            isLoading = true;
+            activateButton.disabled = true;
+            // Usamos textos traducidos
+            statusMessage.innerHTML = `${t.validating} <div class="loader"></div>`; 
+            statusMessage.style.color = '#666'; 
+
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+
+                if (!token) {
+                    throw new Error(t.errorTokenNotFound); // Texto traducido
+                }
+
+                const supabaseFunctionUrl = 'https://yssonpnesxtkmzganklq.supabase.co/functions/v1/validate-activation-token'; // <-- RECUERDA CAMBIAR ESTO
+                
+                const response = await fetch(supabaseFunctionUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    // Texto traducido
+                    throw new Error(data.error || `${t.errorServer} ${response.status}.`); 
+                }
+
+                if (data.checkoutUrl) {
+                    statusMessage.textContent = t.redirecting; // Texto traducido
+                    window.location.href = data.checkoutUrl;
+                } else {
+                    throw new Error(t.errorNoUrl); // Texto traducido
+                }
+
+            } catch (error) {
+                console.error('Error en la activación:', error);
+                 // Texto traducido
+                statusMessage.textContent = `${t.errorGeneric} ${error.message}`;
+                statusMessage.style.color = 'red';
+                activateButton.disabled = false; 
+                isLoading = false;
+            }
+        };
+
+        activateButton.addEventListener('click', activateSubscription);
+
+    </script>
+</body>
+</html>
+
