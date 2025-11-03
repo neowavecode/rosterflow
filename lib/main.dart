@@ -52,56 +52,58 @@ class RosterFlowApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       // Tema de la aplicación
+      // Tema de la aplicación
       theme: ThemeData(
-    // 1. APLICAMOS LA FUENTE GLOBALMENTE
-    // Esto aplica Open Sans a todos los textos (headlines, body, etc.)
-    textTheme: GoogleFonts.openSansTextTheme(
-      Theme.of(context).textTheme,
-    ).apply( // Aseguramos que los colores base sean correctos
-      bodyColor: Colors.black87,
-      displayColor: Colors.black,
-    ),
+        
+        // --- 1. DEFINIMOS EL NUEVO COLOR "CEMENTO" CLARO ---
+        scaffoldBackgroundColor: const Color(0xFFEAEAEA), // Este es tu nuevo gris cemento
 
-    // 2. ELIMINAMOS LA FUENTE 'Inter' DE AQUÍ
-    scaffoldBackgroundColor: backgroundColor, 
-
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white, 
-      iconTheme: const IconThemeData(color: Colors.black), 
-      systemOverlayStyle: SystemUiOverlayStyle.dark, 
-      // 3. Aplicamos la fuente específica al título del AppBar
-      titleTextStyle: GoogleFonts.openSans( 
-        color: Colors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-      elevation: 1, 
-    ),
-
-    cardTheme: CardThemeData(
-      elevation: 4,
-      shadowColor: Colors.black.withOpacity(0.1),
-      color: Colors.white,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
-    ),
-
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        // 4. Aplicamos la fuente a los botones
-        textStyle: GoogleFonts.openSans( 
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+        // Mantenemos tu fuente Open Sans
+        textTheme: GoogleFonts.balsamiqSansTextTheme(
+          Theme.of(context).textTheme,
+        ).apply( 
+          bodyColor: Colors.black87,
+          displayColor: Colors.black,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+
+        appBarTheme: AppBarTheme(
+          // --- 2. EL APPBAR USA EL MISMO COLOR ---
+          backgroundColor: const Color(0xFFEAEAEA), 
+          iconTheme: const IconThemeData(color: Colors.black), 
+          systemOverlayStyle: SystemUiOverlayStyle.dark, 
+          titleTextStyle: GoogleFonts.balsamiqSans( 
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          // --- 3. SIN SOMBRA, PARA QUE SE FUNDA CON EL FONDO ---
+          elevation: 0, 
+        ),
+
+        // 4. LAS TARJETAS (BLANCAS) AHORA RESALTARÁN MUCHO MÁS
+        cardTheme: CardThemeData(
+          elevation: 4,
+          shadowColor: Colors.black.withOpacity(0.1),
+          color: Colors.white,
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            textStyle: GoogleFonts.balsamiqSans( 
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
         ),
       ),
-    ),
-  ),
   home: const HomePage(), // <-- ASEGÚRATE DE QUE ESTA LÍNEA ESTÉ DESCOMENTADA
   ); // Cierre del MaterialApp
 }

@@ -16,34 +16,52 @@ class ImageSlider extends StatelessWidget {
 
     return CarouselSlider.builder(
       itemCount: imagePaths.length,
+      
       itemBuilder: (context, index, realIndex) {
+        // 1. El Padding ahora va por fuera, para separar las tarjetas
         return Padding(
-          // Mantenemos un pequeño padding para que no se peguen
-          padding: const EdgeInsets.symmetric(horizontal: 8.0), 
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              imagePaths[index],
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[200],
-                  child: Center(child: Text('Error al cargar ${imagePaths[index]}')),
-                );
-              },
+          // 2. Añadimos padding vertical para que la sombra no se corte
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0), 
+          // 3. Este Container aplica la sombra a CADA imagen
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor, // Un fondo sólido (blanco)
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 15, // Sombra más sutil para un item pequeño
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                imagePaths[index],
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[200],
+                    child: Center(child: Text('Error al cargar ${imagePaths[index]}')),
+                  );
+                },
+              ),
             ),
           ),
         );
       },
-      // --- AQUÍ EMPIEZAN LAS MODIFICACIONES ---
+
       options: CarouselOptions(
-        // CAMBIO 1: La mitad de altura
-        height: 140, // <-- La bajamos de 280 a 140
+        // CAMBIO: Ajustamos la altura para dar espacio a la sombra vertical
+        height: 164, // (140 de la imagen + 12*2 del padding vertical)
 
-        // CAMBIO 2: Para mostrar 4 imágenes a la vez
-        viewportFraction: 0.25, // <-- Lo cambiamos de 0.33 a 0.25 (1 / 4)
+        // --- INICIO DE LA MODIFICACIÓN ---
+        clipBehavior: Clip.none, // <-- ¡SOLUCIÓN! Permite que la sombra se vea
+        // --- FIN DE LA MODIFICACIÓN ---
 
-        // Mantenemos el resto de tu configuración "Premium"
+        // Mantenemos tu configuración
+        viewportFraction: 0.25, 
         enlargeCenterPage: false, 
         autoPlayCurve: Curves.fastOutSlowIn, 
         autoPlayAnimationDuration: const Duration(milliseconds: 1500), 
@@ -51,7 +69,6 @@ class ImageSlider extends StatelessWidget {
         autoPlayInterval: const Duration(seconds: 3), 
         aspectRatio: 16 / 9, 
       ),
-      // --- FIN DE LAS MODIFICACIONES ---
     );
   }
 }

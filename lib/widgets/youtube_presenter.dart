@@ -37,22 +37,40 @@ class _YoutubePresenterState extends State<YoutubePresenter> {
     super.dispose();
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 900),
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: ClipRRect(
+        
+        // --- INICIO DE LA MODIFICACIÓN ---
+        // 1. Añadimos un Container que contendrá la sombra
+        child: Container(
+          decoration: BoxDecoration(
+            // 2. Le damos bordes redondeados para que la sombra coincida
             borderRadius: BorderRadius.circular(16.0),
-            // 4. USAMOS EL WIDGET ORIGINAL
-            child: YoutubePlayer(
-              controller: _controller,
-              aspectRatio: 16 / 9,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(1.0), // La sombra
+                blurRadius: 20,
+                offset: const Offset(0, 8), // Hacia abajo
+              ),
+            ],
+          ),
+          // 3. El AspectRatio (tu código original) va DENTRO del Container
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              // 4. USAMOS EL WIDGET ORIGINAL
+              child: YoutubePlayer(
+                controller: _controller,
+                aspectRatio: 16 / 9,
+              ),
             ),
           ),
         ),
+        // --- FIN DE LA MODIFICACIÓN ---
       ),
     );
   }

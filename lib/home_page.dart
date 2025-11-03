@@ -118,223 +118,268 @@ class HomePage extends StatelessWidget {
       // --- EL "WALL" SCROLLABLE ---
       // --- EL "WALL" SCROLLABLE ---
      // --- EL "WALL" SCROLLABLE ---
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            
-            // --- INICIO DEL NUEVO CONTENEDOR DE CABECERA ---
-            // --- INICIO DEL NUEVO CONTENEDOR DE CABECERA ---
-        Container(
-          color: Colors.white, // <-- ¡El nuevo fondo blanco!
-          child: Column(
-            children: [
+      // --- INICIO DEL NUEVO BODY CON FONDO "GLOW" ---
+      body: Stack(
+        children: [
+          
+          // --- CAPA 1: LOS "BLOOMS" DE FONDO (SÓLO GLOW, SIN CÍRCULO SÓLIDO) ---
+          Positioned(
+            top: -300, // Arriba del todo, casi fuera de la pantalla
+            left: -300, // Izquierda del todo, casi fuera de la pantalla
+            child: Container(
+              width: 600, // Tamaño de la "fuente" de luz (aumentado un poco)
+              height: 600,
+              decoration: BoxDecoration(
+                // Establecemos el color del contenedor como transparente
+                color: Colors.transparent, 
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    // El color del resplandor (Azul Caribe)
+                    color: Colors.cyan.withOpacity(0.15), 
+                    blurRadius: 400,  // ¡Más difuminado aún!
+                    spreadRadius: 300, // ¡Más expansión!
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -300, // Abajo del todo, casi fuera de la pantalla
+            right: -300, // Derecha del todo, casi fuera de la pantalla
+            child: Container(
+              width: 700, // Tamaño de la "fuente" de luz (aumentado un poco)
+              height: 700,
+              decoration: BoxDecoration(
+                // Establecemos el color del contenedor como transparente
+                color: Colors.transparent, 
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    // El color del resplandor (Verde Planta)
+                    color: Colors.lightGreen.withOpacity(0.10), // Un poco más de opacidad para que se note
+                    blurRadius: 450, // ¡Más difuminado aún!
+                    spreadRadius: 350, // ¡Más expansión!
+                  )
+                ],
+              ),
+            ),
+          ),
+          // --- FIN DE LA CAPA DE "BLOOMS" ---
 
-              // --- SECCIÓN 2: TEXTO DE INTRODUCCIÓN (VA PRIMERO) ---
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.only(top: 64, bottom: 48, left: 24, right: 24), 
-                child: ConstrainedBox(
-                  // ... (Tu ConstrainedBox con el Logo y el Texto de Intro) ...
-                  // ... (Esto no cambia) ...
-                  constraints: const BoxConstraints(maxWidth: 900),
+
+          // --- CAPA 2: TU "WALL" SCROLLABLE (VA ENCIMA DE LOS BLOBS) ---
+          // (Esta parte es tu código, no cambia)
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                
+                // --- INICIO DEL NUEVO CONTENEDOR DE CABECERA ---
+                Container(
+                  // 1. USAMOS EL MISMO COLOR DEL SCAFFOLD
+                  color: Theme.of(context).scaffoldBackgroundColor, 
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, 
                     children: [
-                      // --- Logo + Título ---
-                      Row(
-                        mainAxisSize: MainAxisSize.min, 
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/logotipo.png',
-                            height: 50, 
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.error_outline, color: Colors.red, size: 40);
-                            },
+
+                      // --- SECCIÓN 2: TEXTO DE INTRODUCCIÓN (VA PRIMERO) ---
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(top: 64, bottom: 48, left: 24, right: 24), 
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 900),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center, 
+                            children: [
+                              // --- Logo + Título ---
+                              Row(
+                                mainAxisSize: MainAxisSize.min, 
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/logotipo.png',
+                                    height: 50, 
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.error_outline, color: Colors.red, size: 40);
+                                    },
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Text(
+                                    l10n.introTitle,
+                                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              // --- Texto de Introducción ---
+                              Text(
+                                l10n.introText,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 16),
-                          Text(
-                            l10n.introTitle,
-                            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      // --- Texto de Introducción ---
-                      Text(
-                        l10n.introText,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w400,
                         ),
                       ),
+
+                      // --- ¡NUEVO! SECCIÓN DE VÍDEO YOUTUBE ---
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.0),
+                        child: YoutubePresenter(
+                          // CAMBIA ESTA ID por la de tu vídeo
+                          videoId: 'NSqewAybgVk', 
+                        ),
+                      ),
+                      // --- FIN DE LA SECCIÓN DE VÍDEO ---
+
+
+                      // --- SECCIÓN 1: SLIDER (AHORA VA TERCERO) ---
+                      const Padding(
+                        // Le damos más espacio
+                        padding: EdgeInsets.only(top: 48, bottom: 24.0), 
+                        child: ImageSlider(), 
+                      ),
+
                     ],
                   ),
                 ),
-              ),
+                // --- FIN DEL NUEVO CONTENEDOR DE CABECERA ---
+                
+                // --- SECCIONES DE FEATURES (VÍDEOS) ---
+                _buildSectionTitle(context, l10n.sectionTitleIndependent), 
 
-              // --- ¡NUEVO! SECCIÓN DE VÍDEO YOUTUBE ---
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: YoutubePresenter(
-                  // CAMBIA ESTA ID por la de tu vídeo
-                  videoId: 'G_PcfT8M_hM', 
+                FeatureSection(
+                  videoPath: 'assets/videos/1.mp4',
+                  title: l10n.feature1Title,
+                  description: l10n.feature1Description,
+                  videoOnLeft: true,
                 ),
-              ),
-              // --- FIN DE LA SECCIÓN DE VÍDEO ---
+                FeatureSection(
+                  videoPath: 'assets/videos/2.mp4',
+                  title: l10n.feature2Title,
+                  description: l10n.feature2Description,
+                  videoOnLeft: false,
+                ),
+                FeatureSection(
+                  videoPath: 'assets/videos/3.mp4',
+                  title: l10n.feature3Title,
+                  description: l10n.feature3Description,
+                  videoOnLeft: true,
+                ),
+                  FeatureSection(
+                  videoPath: 'assets/videos/5.mp4',
+                  title: l10n.feature4Title,
+                  description: l10n.feature4Description,
+                  videoOnLeft: false,
+                ),
 
+                // --- TEMA: MODO EMPRESA (OWNER) ---
+                _buildSectionTitle(context, l10n.sectionTitleManager), 
 
-              // --- SECCIÓN 1: SLIDER (AHORA VA TERCERO) ---
-              const Padding(
-                // Le damos más espacio
-                padding: EdgeInsets.only(top: 48, bottom: 24.0), 
-                child: ImageSlider(), 
-              ),
-
-            ],
-          ),
-        ),
-        // --- FIN DEL NUEVO CONTENEDOR DE CABECERA ---
-            // --- FIN DEL NUEVO CONTENEDOR DE CABECERA ---
-            // --- FIN DEL NUEVO CONTENEDOR DE CABECERA ---
-
-            
-            // --- SECCIONES DE FEATURES (VÍDEOS) ---
-            // (Aquí empieza el resto de tu contenido, que ya quedará
-            // sobre el fondo gris claro del Scaffold)
-            // --- TEMA: MODO INDEPENDIENTE ---
-            _buildSectionTitle(context, l10n.sectionTitleIndependent), // Título de sección
-
-            FeatureSection(
-              videoPath: 'assets/videos/1.mp4',
-              title: l10n.feature1Title,
-              description: l10n.feature1Description,
-              videoOnLeft: true,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/2.mp4',
-              title: l10n.feature2Title,
-              description: l10n.feature2Description,
-              videoOnLeft: false,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/3.mp4',
-              title: l10n.feature3Title,
-              description: l10n.feature3Description,
-              videoOnLeft: true,
-            ),
-             FeatureSection(
-              videoPath: 'assets/videos/5.mp4',
-              title: l10n.feature4Title,
-              description: l10n.feature4Description,
-              videoOnLeft: false,
-            ),
-
-            // --- TEMA: MODO EMPRESA (OWNER) ---
-            _buildSectionTitle(context, l10n.sectionTitleManager), // Título de sección
-
-            FeatureSection(
-              videoPath: 'assets/videos/6.mp4',
-              title: l10n.feature5Title,
-              description: l10n.feature5Description,
-              videoOnLeft: true,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/7.mp4',
-              title: l10n.feature6Title,
-              description: l10n.feature6Description,
-              videoOnLeft: false,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/8.mp4',
-              title: l10n.feature7Title,
-              description: l10n.feature7Description,
-              videoOnLeft: true,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/11.mp4',
-              title: l10n.feature8Title,
-              description: l10n.feature8Description,
-              videoOnLeft: false,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/10.mp4',
-              title: l10n.feature9Title,
-              description: l10n.feature9Description,
-              videoOnLeft: true,
-            ),
-            FeatureSection(
-              videoPath: 'assets/videos/9.mp4',
-              title: l10n.feature10Title,
-              description: l10n.feature10Description,
-              videoOnLeft: false,
-            ),
+                FeatureSection(
+                  videoPath: 'assets/videos/6.mp4',
+                  title: l10n.feature5Title,
+                  description: l10n.feature5Description,
+                  videoOnLeft: true,
+                ),
+                FeatureSection(
+                  videoPath: 'assets/videos/7.mp4',
+                  title: l10n.feature6Title,
+                  description: l10n.feature6Description,
+                  videoOnLeft: false,
+                ),
+                FeatureSection(
+                  videoPath: 'assets/videos/8.mp4',
+                  title: l10n.feature7Title,
+                  description: l10n.feature7Description,
+                  videoOnLeft: true,
+                ),
+                FeatureSection(
+                  videoPath: 'assets/videos/11.mp4',
+                  title: l10n.feature8Title,
+                  description: l10n.feature8Description,
+                  videoOnLeft: false,
+                ),
+                FeatureSection(
+                  videoPath: 'assets/videos/10.mp4',
+                  title: l10n.feature9Title,
+                  description: l10n.feature9Description,
+                  videoOnLeft: true,
+                ),
+                FeatureSection(
+                  videoPath: 'assets/videos/9.mp4',
+                  title: l10n.feature10Title,
+                  description: l10n.feature10Description,
+                  videoOnLeft: false,
+                ),
                         FeatureSection(
-              videoPath: 'assets/videos/13.mp4', // Aquí usamos el vídeo 12
-              title: l10n.feature12Title,
-              description: l10n.feature12Description,
-              videoOnLeft: true,
-            ),
-            
-            // --- TEMA: MODO EMPLEADO ---
-            _buildSectionTitle(context, l10n.sectionTitleEmployee), // Título de sección
-            
-            FeatureSection(
-              videoPath: 'assets/videos/12.mp4',
-              title: l10n.feature11Title,
-              description: l10n.feature11Description,
-              videoOnLeft: false,
-            ),
-            
-            // --- TEMA: FUNCIONES GLOBALES ---
-            
-
-           Container(
-              alignment: Alignment.center,
-              // Le damos un fondo blanco para destacarlo
-              color: Colors.white, 
-              padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 900),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center, 
-                  children: [
-                    Text(
-                      l10n.feature13Title, // "Una App Verdaderamente Global"
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Text(
-                      l10n.feature13Description, // "Hecha para el mundo..."
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
+                  videoPath: 'assets/videos/13.mp4', 
+                  title: l10n.feature12Title,
+                  description: l10n.feature12Description,
+                  videoOnLeft: true,
                 ),
-              ),
+                
+                // --- TEMA: MODO EMPLEADO ---
+                _buildSectionTitle(context, l10n.sectionTitleEmployee), 
+                
+                FeatureSection(
+                  videoPath: 'assets/videos/12.mp4',
+                  title: l10n.feature11Title,
+                  description: l10n.feature11Description,
+                  videoOnLeft: false,
+                ),
+                
+                // --- TEMA: FUNCIONES GLOBALES ---
+                Container(
+                  alignment: Alignment.center,
+                  // 2. USAMOS EL MISMO COLOR DEL SCAFFOLD
+                  color: Theme.of(context).scaffoldBackgroundColor, 
+                  padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 900),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center, 
+                      children: [
+                        Text(
+                          l10n.feature13Title, 
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          l10n.feature13Description, 
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                // --- SECCIÓN DE DESCARGA ---
+                _buildDownloadSection(context, l10n),
+                
+                // --- FOOTER ---
+                _buildFooter(context, l10n),
+              ],
             ),
-            
-            // --- SECCIÓN DE DESCARGA ---
-            _buildDownloadSection(context, l10n),
-            
-            // --- FOOTER ---
-            _buildFooter(context, l10n),
-          ],
-        ),
+          ),
+        ],
       ),
+      // --- FIN DEL NUEVO BODY ---
 
 
     );
@@ -360,7 +405,7 @@ class HomePage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
       alignment: Alignment.center,
-      color: Colors.grey[200], // Un color de fondo diferente
+      color: const Color.fromARGB(255, 255, 255, 255), // Un color de fondo diferente
       child: Column(
         children: [
           Text(
@@ -416,7 +461,7 @@ class HomePage extends StatelessWidget {
         l10n.footerText('RosterFlow'),
         textAlign: TextAlign.center,
         // Aplicamos la fuente aquí también
-        style: GoogleFonts.openSans( 
+        style: GoogleFonts.balsamiqSans( 
           color: Colors.white,
           fontSize: 14,
         ),
@@ -429,7 +474,6 @@ class HomePage extends StatelessWidget {
 }
 
 // --- Widget Auxiliar para los Botones de las Tiendas ---
-
 class _StoreBadge extends StatelessWidget {
   final String imagePath;
   final String storeUrl;
@@ -447,24 +491,40 @@ class _StoreBadge extends StatelessWidget {
     }
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: _launchStoreURL, // Para que sea clicable
-      child: Image.asset(
-        imagePath,
-        height: 50, // <-- Altura fija de 50 para ambas, como pediste
-        errorBuilder: (context, error, stackTrace) {
-          // Un fallback por si la imagen no carga (ej. error en pubspec.yaml)
-          return Container(
-            height: 50,
-            width: 150,
-            color: Colors.grey[300],
-            child: const Center(
-              child: Text('Error', style: TextStyle(color: Colors.red)),
+      borderRadius: BorderRadius.circular(8.0), // Redondea el "splash"
+      child: Container( // <-- 1. ENVOLVEMOS LA IMAGEN EN UN CONTAINER
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0), // Bordes redondeados
+          boxShadow: [ // <-- 2. AÑADIMOS LA SOMBRA
+            BoxShadow(
+              color: Colors.black.withOpacity(0.50), // Color de la sombra
+              blurRadius: 20, // Difuminado
+              offset: const Offset(0, 0), // Desplazamiento (hacia abajo)
             ),
-          );
-        },
+          ],
+        ),
+        child: ClipRRect( // <-- 3. USAMOS CLIPRRECT PARA QUE LA IMAGEN RESPETE LOS BORDES
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            imagePath,
+            height: 50, // <-- Altura fija de 50
+            errorBuilder: (context, error, stackTrace) {
+              // Un fallback por si la imagen no carga
+              return Container(
+                height: 50,
+                width: 150,
+                color: Colors.grey[300],
+                child: const Center(
+                  child: Text('Error', style: TextStyle(color: Colors.red)),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

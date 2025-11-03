@@ -22,14 +22,14 @@ class FeatureSection extends StatelessWidget {
     // Usamos LayoutBuilder para detectar si estamos en móvil o escritorio
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Definimos un punto de corte. Si la pantalla es más ancha, es "desktop"
+        // Definimos un punto de corte.
         const double breakpoint = 900.0;
         final bool isDesktop = constraints.maxWidth > breakpoint;
 
         // 1. El Widget de Vídeo (con tamaño)
         final videoWidget = SizedBox(
           // Damos un tamaño al contenedor del vídeo
-          width: isDesktop ? 300 : 300, 
+          width: isDesktop ? 300 : 300,
           height: 533, // Proporción 16:9 (300 * 16 / 9)
           child: VideoMockupPlayer(videoPath: videoPath),
         );
@@ -40,7 +40,8 @@ class FeatureSection extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              crossAxisAlignment:
+                  isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               children: [
                 Text(
                   title,
@@ -72,14 +73,32 @@ class FeatureSection extends StatelessWidget {
           child: ConstrainedBox(
             // Limitamos el ancho máximo de la tarjeta
             constraints: const BoxConstraints(maxWidth: 1200),
-            child: Card(
-              elevation: 4,
-              shadowColor: Colors.black.withOpacity(0.1),
-              color: Colors.white,
-              clipBehavior: Clip.antiAlias, // Para que el contenido respete los bordes
-              shape: RoundedRectangleBorder(
+
+            // --- INICIO DE LA MODIFICACIÓN ---
+            // Reemplazamos el Card por un Container para controlar la sombra
+            child: Container(
+              decoration: BoxDecoration(
+                // Mantenemos el color blanco que teníamos del Card
+                color: Theme.of(context).cardTheme.color ?? Colors.white,
+                // Mantenemos los bordes redondeados
                 borderRadius: BorderRadius.circular(24),
+                // ¡AQUÍ ESTÁ LA SOMBRA PERSONALIZADA!
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3), // Un color de sombra sutil
+                    // offset: const Offset(X, Y)
+                    // X > 0 (mueve la sombra a la DERECHA)
+                    // Y > 0 (mueve la sombra hacia ABAJO)
+                    offset: const Offset(7, 7),
+                    blurRadius: 22, // Un difuminado suave
+                    spreadRadius: 1, // Sin expansión, solo difuminado
+                  ),
+                ],
               ),
+              // Mantenemos el ClipRRect para que los vídeos respeten los bordes
+              clipBehavior: Clip.antiAlias,
+              // --- FIN DE LA MODIFICACIÓN ---
+
               child: isDesktop
                   // VISTA DESKTOP (Row)
                   ? IntrinsicHeight(
