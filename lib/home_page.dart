@@ -33,38 +33,60 @@ class HomePage extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-    title: Text(l10n.appTitle),
-    actions: [
-      // --- INICIO DE LA ACTUALIZACIÓN ---
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        // Usamos un Consumer para escuchar los cambios del provider
-        child: Consumer<LocalizationProvider>(
-          builder: (context, provider, child) {
-            return DropdownButton<String>(
-              value: provider.currentLanguageName, // El idioma actual
-              icon: const Icon(Icons.language),
-              underline: Container(),
-              // Generamos la lista de idiomas desde el Provider
-              items: provider.supportedLanguageNames.map((String languageName) {
-                return DropdownMenuItem<String>(
-                  value: languageName,
-                  child: Text(languageName),
-                );
-              }).toList(),
-              // Al cambiar, llamamos al método del Provider
-              onChanged: (String? newLanguageName) {
-                if (newLanguageName != null) {
-                  provider.setLocale(newLanguageName);
-                }
+        // 1. Reemplazamos el 'title' por un 'Row'
+        title: Row(
+          mainAxisSize: MainAxisSize.min, // Para que el Row no ocupe todo el espacio
+          children: [
+            // 2. Añadimos tu logotipo
+            Image.asset(
+              'assets/images/logotipo.png',
+              // 3. Ajustamos la altura para que coincida con el texto (fontSize: 20)
+              //    Un buen punto de partida es 36. ¡Ajusta este valor!
+              height: 36, 
+              errorBuilder: (context, error, stackTrace) {
+                // Fallback por si el logo no carga
+                return const Icon(Icons.error_outline, color: Colors.red, size: 24);
               },
-            );
-          },
+            ),
+            const SizedBox(width: 8), // Un pequeño espacio
+            
+            // 4. El texto del título
+            Text(l10n.appTitle),
+          ],
         ),
+        
+        // 5. Tus 'actions' (el selector de idioma) se quedan exactamente igual
+        actions: [
+          // --- INICIO DE LA ACTUALIZACIÓN ---
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            // Usamos un Consumer para escuchar los cambios del provider
+            child: Consumer<LocalizationProvider>(
+              builder: (context, provider, child) {
+                return DropdownButton<String>(
+                  value: provider.currentLanguageName, // El idioma actual
+                  icon: const Icon(Icons.language),
+                  underline: Container(),
+                  // Generamos la lista de idiomas desde el Provider
+                  items: provider.supportedLanguageNames.map((String languageName) {
+                    return DropdownMenuItem<String>(
+                      value: languageName,
+                      child: Text(languageName),
+                    );
+                  }).toList(),
+                  // Al cambiar, llamamos al método del Provider
+                  onChanged: (String? newLanguageName) {
+                    if (newLanguageName != null) {
+                      provider.setLocale(newLanguageName);
+                    }
+                  },
+                );
+              },
+            ),
+          ),
+          // --- FIN DE LA ACTUALIZACIÓN ---
+        ],
       ),
-      // --- FIN DE LA ACTUALIZACIÓN ---
-    ],
-  ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -177,8 +199,13 @@ class HomePage extends StatelessWidget {
                 
                 // --- INICIO DEL NUEVO CONTENEDOR DE CABECERA ---
                 Container(
-                  // 1. USAMOS EL MISMO COLOR DEL SCAFFOLD
-                  color: Theme.of(context).scaffoldBackgroundColor, 
+                  // 1. REEMPLAZAMOS EL COLOR POR TU IMAGEN
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/fondoweb.png'), 
+                      fit: BoxFit.cover, // Para que la imagen cubra todo el área
+                    ),
+                  ),
                   child: Column(
                     children: [
 
@@ -403,9 +430,9 @@ class HomePage extends StatelessWidget {
   // --- Widget para la sección de Descarga ---
   Widget _buildDownloadSection(BuildContext context, AppLocalizations l10n) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
       alignment: Alignment.center,
-      color: const Color.fromARGB(255, 255, 255, 255), // Un color de fondo diferente
+      color: const Color.fromARGB(255, 192, 192, 192), // Un color de fondo diferente
       child: Column(
         children: [
           Text(
@@ -517,7 +544,7 @@ class _StoreBadge extends StatelessWidget {
               return Container(
                 height: 50,
                 width: 150,
-                color: Colors.grey[300],
+                color: const Color.fromARGB(255, 255, 255, 255),
                 child: const Center(
                   child: Text('Error', style: TextStyle(color: Colors.red)),
                 ),

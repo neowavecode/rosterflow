@@ -27,7 +27,7 @@ class RosterFlowApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Definimos el color de fondo claro
-    final Color backgroundColor = Color(0xFFF4F6F8);
+    final Color backgroundColor = Color.fromARGB(255, 255, 255, 255);
 
     // --- INICIO DE LA CORRECCIÓN ---
     // Esta es la línea que faltaba. Coge el provider del contexto.
@@ -55,10 +55,10 @@ class RosterFlowApp extends StatelessWidget {
       // Tema de la aplicación
       theme: ThemeData(
         
-        // --- 1. DEFINIMOS EL NUEVO COLOR "CEMENTO" CLARO ---
-        scaffoldBackgroundColor: const Color(0xFFEAEAEA), // Este es tu nuevo gris cemento
+        // --- 1. CAMBIAMOS EL FONDO A BLANCO ---
+        scaffoldBackgroundColor: Colors.white,
 
-        // Mantenemos tu fuente Open Sans
+        // Mantenemos tu fuente Balsamiq Sans
         textTheme: GoogleFonts.balsamiqSansTextTheme(
           Theme.of(context).textTheme,
         ).apply( 
@@ -67,8 +67,8 @@ class RosterFlowApp extends StatelessWidget {
         ),
 
         appBarTheme: AppBarTheme(
-          // --- 2. EL APPBAR USA EL MISMO COLOR ---
-          backgroundColor: const Color(0xFFEAEAEA), 
+          // --- 2. EL APPBAR TAMBIÉN BLANCO ---
+          backgroundColor: Colors.white, 
           iconTheme: const IconThemeData(color: Colors.black), 
           systemOverlayStyle: SystemUiOverlayStyle.dark, 
           titleTextStyle: GoogleFonts.balsamiqSans( 
@@ -76,7 +76,7 @@ class RosterFlowApp extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-          // --- 3. SIN SOMBRA, PARA QUE SE FUNDA CON EL FONDO ---
+          // --- 3. SIN SOMBRA (se mantiene) ---
           elevation: 0, 
         ),
 
