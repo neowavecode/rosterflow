@@ -261,7 +261,7 @@ class HomePage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 24.0),
                         child: YoutubePresenter(
                           // CAMBIA ESTA ID por la de tu vídeo
-                          videoId: 'NSqewAybgVk', 
+                          videoId: '2JcBlWHrydc', 
                         ),
                       ),
                       // --- FIN DE LA SECCIÓN DE VÍDEO ---
