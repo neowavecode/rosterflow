@@ -459,14 +459,14 @@ class HomePage extends StatelessWidget {
               _StoreBadge(
                 imagePath: 'assets/images/googlebadge.png',
                 // CAMBIA ESTO por tu URL real
-                storeUrl: 'https://play.google.com/store/apps/details?id=com.tu.paquete', 
+                storeUrl: 'https://play.google.com/store/apps/details?id=com.rosterflowapp.rosterflow&pcampaignid=web_share', 
               ),
               const SizedBox(width: 16),
               // Botón de Apple App Store
               _StoreBadge(
                 imagePath: 'assets/images/applebadge.png',
                 // CAMBIA ESTO por tu URL real
-                storeUrl: 'https://apps.apple.com/app/tu-app/id1234567890',
+                storeUrl: 'https://apps.apple.com/us/app/rosterflow-shifts-invoices/id6754876611',
               ),
 
               // --- FIN DE LA ACTUALIZACIÓN ---
