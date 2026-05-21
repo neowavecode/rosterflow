@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RosterFlow</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body style="position: relative; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;">
+    <!-- Premium Background Blobs distributed over scroll height -->
+    <div class="background-effects-scroll">
+        <div class="blob blob-1" style="top: 0%; left: -10%;"></div>
+        <div class="blob blob-2" style="top: 15%; right: -5%;"></div>
+        <div class="blob blob-3" style="top: 30%; left: -5%;"></div>
+        <div class="blob blob-4" style="top: 45%; right: 10%;"></div>
+        <div class="blob blob-5" style="top: 60%; left: 5%;"></div>
+        <div class="blob blob-6" style="top: 75%; right: -10%;"></div>
+        <div class="blob blob-1" style="top: 85%; left: -5%;"></div>
+        <div class="blob blob-3" style="top: 95%; right: 10%;"></div>
+    </div>
+
+    <header class="header" style="position: relative; z-index: 10;">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="assets/images/logotipo.png" alt="RosterFlow Logo" class="logo">
+                <span class="app-title" data-i18n="appTitle">RosterFlow</span>
+            </div>
+            <div class="header-actions">
+                <select id="language-selector" class="language-selector">
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="zh">中文</option>
+                    <option value="ar">العربية</option>
+                    <option value="ja">日本語</option>
+                    <option value="ru">Русский</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="pl">Polski</option>
+                    <option value="ko">한국어</option>
+                    <option value="hi">हिन्दी</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text-block fade-in">
+                    <div class="hero-title-row">
+                        <img src="assets/images/logotipo.png" alt="Logo" class="hero-logo">
+                        <h1 data-i18n="introTitle">RosterFlow, Tu Centro de Control 3-en-1</h1>
+                    </div>
+                    <p class="hero-subtitle" data-i18n="introText">La herramienta definitiva para tu negocio. Tanto si eres una Empresa gestionando un equipo, un Autónomo organizando sus finanzas o un Empleado revisando sus turnos, RosterFlow es tu solución.</p>
+                </div>
+
+                <div class="youtube-container fade-in">
+                    <iframe src="https://www.youtube.com/embed/2JcBlWHrydc?rel=0&modestbranding=1" title="RosterFlow Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section: Independent -->
+        <div class="section-divider fade-in">
+            <h2 data-i18n="sectionTitleIndependent">Para el Profesional Independiente</h2>
+        </div>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-left">
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/1.mp4" muted loop playsinline></video>
+                </div>
+                <div class="feature-text">
+                    <h3 data-i18n="feature1Title">Tus Finanzas, Bajo Control</h3>
+                    <p data-i18n="feature1Description">Obtén una radiografía financiera completa...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-right">
+                <div class="feature-text">
+                    <h3 data-i18n="feature2Title">Tu Agenda Profesional</h3>
+                    <p data-i18n="feature2Description">Gestiona tu propio calendario empresarial...</p>
+                </div>
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/2.mp4" muted loop playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-left">
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/3.mp4" muted loop playsinline></video>
+                </div>
+                <div class="feature-text">
+                    <h3 data-i18n="feature3Title">Clientes y Proyectos</h3>
+                    <p data-i18n="feature3Description">Organiza todos tus clientes y gestiona cada proyecto...</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="feature-block fade-in">
+            <div class="feature-container video-right">
+                <div class="feature-text">
+                    <h3 data-i18n="feature4Title">Facturación Profesional</h3>
+                    <p data-i18n="feature4Description">Crea facturas personalizadas con tus datos...</p>
+                </div>
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/5.mp4" muted loop playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section: Manager -->
+        <div class="section-divider fade-in">
+            <h2 data-i18n="sectionTitleManager">Para el Gestor de Equipos</h2>
+        </div>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-left">
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/6.mp4" muted loop playsinline></video>
+                </div>
+                <div class="feature-text">
+                    <h3 data-i18n="feature5Title">Construye tu Equipo en Minutos</h3>
+                    <p data-i18n="feature5Description">Invita a empleados o managers usando un código de invitación único...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-right">
+                <div class="feature-text">
+                    <h3 data-i18n="feature6Title">Horarios Inteligentes, Creación Rápida</h3>
+                    <p data-i18n="feature6Description">Diseña horarios personalizados fácilmente...</p>
+                </div>
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/7.mp4" muted loop playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-left">
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/8.mp4" muted loop playsinline></video>
+                </div>
+                <div class="feature-text">
+                    <h3 data-i18n="feature7Title">Control Horario con GPS</h3>
+                    <p data-i18n="feature7Description">Comprueba quién ha fichado y a qué hora...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-right">
+                <div class="feature-text">
+                    <h3 data-i18n="feature8Title">Gestión de Solicitudes Centralizada</h3>
+                    <p data-i18n="feature8Description">Recibe, aprueba o deniega las solicitudes de días libres...</p>
+                </div>
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/11.mp4" muted loop playsinline></video>
+                </div>
+            </div>
+        </section>
+        
+        <section class="feature-block fade-in">
+            <div class="feature-container video-left">
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/10.mp4" muted loop playsinline></video>
+                </div>
+                <div class="feature-text">
+                    <h3 data-i18n="feature9Title">Comunica lo Importante</h3>
+                    <p data-i18n="feature9Description">Crea anuncios para todos los miembros de tu organización...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-right">
+                <div class="feature-text">
+                    <h3 data-i18n="feature10Title">Chat de Equipo Integrado</h3>
+                    <p data-i18n="feature10Description">Habla con toda tu organización en el chat grupal...</p>
+                </div>
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/9.mp4" muted loop playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-left">
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/13.mp4" muted loop playsinline></video>
+                </div>
+                <div class="feature-text">
+                    <h3 data-i18n="feature12Title">Exporta Registros a Excel</h3>
+                    <p data-i18n="feature12Description">Genera informes de horas listos para tu gestoría...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section: Employee -->
+        <div class="section-divider fade-in">
+            <h2 data-i18n="sectionTitleEmployee">Para el Empleado</h2>
+        </div>
+
+        <section class="feature-block fade-in">
+            <div class="feature-container video-right">
+                <div class="feature-text">
+                    <h3 data-i18n="feature11Title">El Portal del Empleado</h3>
+                    <p data-i18n="feature11Description">Tu espacio para fichar, consultar tu calendario de turnos...</p>
+                </div>
+                <div class="feature-video-wrapper">
+                    <video class="feature-video" src="assets/videos/12.mp4" muted loop playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <!-- Global Features -->
+        <section class="global-features fade-in">
+            <div class="global-container">
+                <h2 data-i18n="feature13Title">Una App Verdaderamente Global</h2>
+                <p data-i18n="feature13Description">Hecha para el mundo. RosterFlow está disponible en 30 idiomas y soporta más de 100 divisas para tu facturación y contabilidad. Tu negocio no tiene fronteras.</p>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <section class="download-section fade-in">
+            <div class="download-container">
+                <h2 data-i18n="downloadTitle">Descarga la App</h2>
+                <p data-i18n="downloadSubtitle">Lleva RosterFlow contigo a todas partes. Disponible en iOS y Android.</p>
+                <div class="store-badges">
+                    <a href="https://play.google.com/store/apps/details?id=com.rosterflowapp.rosterflow&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="store-badge">
+                        <img src="assets/images/googlebadge.png" alt="Get it on Google Play">
+                    </a>
+                    <a href="https://apps.apple.com/us/app/rosterflow-shifts-invoices/id6754876611" target="_blank" rel="noopener noreferrer" class="store-badge">
+                        <img src="assets/images/applebadge.png" alt="Download on the App Store">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p data-i18n="footerText">© RosterFlow 2025 todos los derechos reservados</p>
+            <div class="footer-links">
+                <a href="privacy_policy.html" data-i18n="privacyPolicy">Política de Privacidad</a>
+                <a href="terms_and_conditions.html" data-i18n="termsAndConditions">Términos y Condiciones</a>
+                <a href="faq.html" data-i18n="faq">Preguntas Frecuentes</a>
+                <a href="contact.html" data-i18n="support">Soporte</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/locales.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
